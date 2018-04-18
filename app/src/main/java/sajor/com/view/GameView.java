@@ -1,4 +1,4 @@
-package sajor.com.shootgame;
+package sajor.com.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -6,8 +6,11 @@ import android.graphics.Paint;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.RelativeLayout;
 
@@ -15,13 +18,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import sajor.com.shootgame.comp.Player;
+import sajor.com.shootgame.EnemyManager;
+import sajor.com.shootgame.MainActivity;
+import sajor.com.object.Player;
+import sajor.com.util.Constant;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback{
     public static final Player playerHero = new Player();
     // 保存当前Android应用的主Context
     private Context mainContext = null;
-
+    // 判断玩家是否按下屏幕
+    private boolean isTouchPlane;
     // 画图所需要的Paint和Canvas对象
     private Paint paint = null;
     private Canvas canvas = null;
@@ -90,6 +97,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
         int newStage = doStage(gStage, Constant.LOGIC);
         if (newStage != Constant.STAGE_NO_CHANGE && newStage != gStage)
         {
+            Log.v("debug1", "newStage"+ newStage);
+            Log.v("debug1", "gStage"+ gStage);
             doStage(gStage, Constant.CLEAN); // 清除旧的场景
             gStage = newStage & 0xFF;
             doStage(gStage, Constant.INIT);
@@ -119,7 +128,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
     }
 
     public int doLogin(int step){
-        return Constant.STAGE_LOGIN;
+        return Constant.STAGE_NO_CHANGE;
     }
 
     public int doLose(int step){
@@ -156,12 +165,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
                 // 初始化游戏界面
                 if (gameLayout == null) {
                     gameLayout = new RelativeLayout(mainContext);
-
                 }
                 break;
             case Constant.LOGIC:
                 // 随机生成怪物
-
+                // EnemyManager.generateEnemy();
                 // 检查碰撞
 
                 // 角色跳与移动
@@ -184,6 +192,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
                 // 画游戏元素
                 ViewManager.clearScreen(canvas);
                 ViewManager.drawGame(canvas);
+
+                EnemyManager.generateEnemy();
+                EnemyManager.checkEnemy();
                 break;
         }
         return Constant.STAGE_NO_CHANGE;
@@ -265,5 +276,36 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
 
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            isTouchPlane = false;
+            return true;
+        } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            float x = event.getX();
+            float y = event.getY();
+            //判断玩家飞机是否被按下
+            if (x > playerHero.getPlayerX() && x < playerHero.getPlayerX() + playerHero.getHeroWidth()
+                    && y > playerHero.getPlayerY() && y < playerHero.getPlayerY() + playerHero.getHeroHeight()) {
+                //if(isPlay){
+                isTouchPlane = true;
+                //}
+                return true;
+            }
+        }//响应手指在屏幕移动的事件
+        else if(event.getAction() == MotionEvent.ACTION_MOVE && event.getPointerCount() == 1){
+            //判断触摸点是否为玩家的飞机
+            if(isTouchPlane){
+                float x = event.getX();
+                float y = event.getY();
+                playerHero.setPlayerX((int)(x-playerHero.getHeroWidth()/2));
+                playerHero.setPlayerY((int)(y-playerHero.getHeroHeight()/2));
+                return true;
+            }
+        }
+        return false;
     }
 }

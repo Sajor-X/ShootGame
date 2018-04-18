@@ -1,4 +1,4 @@
-package sajor.com.shootgame;
+package sajor.com.view;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -9,7 +9,11 @@ import android.graphics.Matrix;
 
 import java.io.InputStream;
 
-import sajor.com.game.Graphics;
+import sajor.com.shootgame.EnemyManager;
+import sajor.com.util.Graphics;
+import sajor.com.shootgame.MainActivity;
+import sajor.com.shootgame.R;
+import sajor.com.util.Constant;
 
 public class ViewManager {
     // 所有图片资源
@@ -20,6 +24,10 @@ public class ViewManager {
     public static Bitmap[] playerImage = null;
     // 保存一级敌人的图片组
     public static Bitmap[] enemy1_Image = null;
+    // 保存二级敌人的图片组
+    public static Bitmap[] enemy2_Image = null;
+    // 保存三级敌人的图片组
+    public static Bitmap[] enemy3_Image = null;
     // 保存子弹的图片组
     public static Bitmap[] bulletImage = null;
     // 定义游戏对图片的缩放比例
@@ -75,10 +83,10 @@ public class ViewManager {
         // 一级敌人
         enemy1_Image = new Bitmap[5];
         enemy1_Image[0] = Bitmap.createBitmap(imageRes, 534, 612, 57, 43, matrix, false);
-        enemy1_Image[1] = Bitmap.createBitmap(imageRes, 267, 347, 57, 43, matrix, false);
-        enemy1_Image[2] = Bitmap.createBitmap(imageRes, 873, 697, 57, 43, matrix, false);
-        enemy1_Image[3] = Bitmap.createBitmap(imageRes, 267, 296, 57, 43, matrix, false);
-        enemy1_Image[4] = Bitmap.createBitmap(imageRes, 930, 697, 57, 43, matrix, false);
+        enemy1_Image[1] = Bitmap.createBitmap(imageRes, 267, 347, 57, 51, matrix, false);
+        enemy1_Image[2] = Bitmap.createBitmap(imageRes, 873, 697, 57, 51, matrix, false);
+        enemy1_Image[3] = Bitmap.createBitmap(imageRes, 267, 296, 57, 51, matrix, false);
+        enemy1_Image[4] = Bitmap.createBitmap(imageRes, 930, 697, 57, 51, matrix, false);
 
         // 子弹
         bulletImage = new Bitmap[2];
@@ -117,6 +125,7 @@ public class ViewManager {
         // 画玩家飞机
         GameView.playerHero.drawMe(canvas);
         // 画敌人飞机
+        EnemyManager.drawEnemy(canvas);
     }
 
     // 工具方法： 根据图片id 获取实际位图

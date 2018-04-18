@@ -8,6 +8,10 @@ import android.view.Display;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+
+import sajor.com.util.Constant;
+import sajor.com.view.GameView;
+
 import static android.view.ViewGroup.LayoutParams.*;
 
 public class MainActivity extends Activity {

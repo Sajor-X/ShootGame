@@ -1,4 +1,4 @@
-package sajor.com.shootgame.comp;
+package sajor.com.object;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -6,13 +6,11 @@ import android.graphics.Canvas;
 import java.util.ArrayList;
 import java.util.List;
 
-import sajor.com.shootgame.Constant;
-import sajor.com.shootgame.ViewManager;
-import sajor.com.game.Graphics;
+import sajor.com.util.Constant;
+import sajor.com.view.ViewManager;
+import sajor.com.util.Graphics;
 
 public class Player {
-    private int default_x = 0;
-    private int default_y = 0;
     private int playerX;
     private int playerY;
     // 保存当前状态
@@ -21,34 +19,27 @@ public class Player {
     private int heroHeight = 0;
     private int heroWidth = 0;
 
+    // 子弹集合
     private final List<Bullet> bulletList = new ArrayList<>();
-    public Player(){
 
-    }
+    // 初始化玩家位置
     public void init(Bitmap hero){
         heroWidth = hero.getWidth();
         heroHeight = hero.getHeight();
         playerX = (ViewManager.SCREEN_WIDTH - heroWidth)/ 2;
         playerY = ViewManager.SCREEN_HEIGHT - heroHeight;
-        default_x = playerX;
-        default_y = playerY;
     }
+
+    // 画出玩家
     public void drawMe(Canvas canvas){
         if (canvas == null){
             return ;
         }
-        switch(action){
-            case 0:
-                drawAni(canvas, ViewManager.playerImage[0]);
-                break;
-            case 1:
-                drawAni(canvas, ViewManager.playerImage[1]);
-                break;
-        }
-        action+=1;
-        if (action == 2){
+        drawAni(canvas, ViewManager.playerImage[action % 2]);
+        action+=2;
+        if (action >= 8){
             addBullet();
-            action = 0;
+            action = action % 2 + 1;
         }
     }
     public void drawAni(Canvas canvas, Bitmap hero){
@@ -63,8 +54,7 @@ public class Player {
     // 画子弹
     public void drawBullet(Canvas canvas) {
         List<Bullet> deleteList = new ArrayList<>();
-        Bullet bullet;
-
+        Bullet bullet; Bitmap bitmap;
         // 遍历角色发射的所有子弹
         for (int i = 0; i < bulletList.size(); i++) {
             bullet = bulletList.get(i);
@@ -76,7 +66,6 @@ public class Player {
                 deleteList.add(bullet);
             }
         }
-        Bitmap bitmap;
         // 清除所有越界的子弹
         bulletList.removeAll(deleteList);
         // 遍历用户发射的所有子弹
@@ -92,7 +81,7 @@ public class Player {
                 continue;
             }
             // 子弹移动
-            bullet.move();
+            bullet.bulletMove();
             // 画子弹
             Graphics.drawImage(canvas, bitmap, bullet.getBulletX(), bullet.getBulletY(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
         }
@@ -107,5 +96,33 @@ public class Player {
         Bullet bullet = new Bullet(bulletX, bulletY, Constant.BULLET_TYPE_1);
         // 将子弹添加到用户发射的子弹集合中
         bulletList.add(bullet);
+    }
+
+    public int getPlayerX() {
+        return playerX;
+    }
+
+    public int getPlayerY() {
+        return playerY;
+    }
+
+    public int getHeroHeight() {
+        return heroHeight;
+    }
+
+    public int getHeroWidth() {
+        return heroWidth;
+    }
+
+    public void setPlayerX(int playerX) {
+        this.playerX = playerX;
+    }
+
+    public void setPlayerY(int playerY) {
+        this.playerY = playerY;
+    }
+
+    public List<Bullet> getBulletList() {
+        return bulletList;
     }
 }

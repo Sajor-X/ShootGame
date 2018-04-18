@@ -1,9 +1,9 @@
-package sajor.com.shootgame.comp;
+package sajor.com.object;
 
 import android.graphics.Bitmap;
 
-import sajor.com.shootgame.Constant;
-import sajor.com.shootgame.ViewManager;
+import sajor.com.util.Constant;
+import sajor.com.view.ViewManager;
 
 public class Bullet {
     // 子弹的坐标
@@ -14,17 +14,17 @@ public class Bullet {
     private boolean isEffect = true;
 
     // 子弹的类型
-    private int type;
+    private int bulleType;
 
     public Bullet(int x, int y, int type){
         this.bulletX = x;
         this.bulletY = y;
-        this.type = type;
+        this.bulleType = type;
     }
 
     // 根据类型获取子弹图片
     public Bitmap getBitmap(){
-        switch (type){
+        switch (bulleType){
             case Constant.BULLET_TYPE_1:
                 return ViewManager.bulletImage[0];
             case Constant.BULLET_TYPE_2:
@@ -35,7 +35,7 @@ public class Bullet {
     }
 
     // 定义子弹移动的方法
-    public void move(){
+    public void bulletMove(){
         bulletY -= Constant.BULLET_SPEED;
     }
 
@@ -47,15 +47,11 @@ public class Bullet {
         return bulletX;
     }
 
-    public void setBulletX(int bulletX) {
-        this.bulletX = bulletX;
+    public void setEffect(boolean effect) {
+        isEffect = effect;
     }
 
     public boolean isEffect() {
         return isEffect;
-    }
-
-    public void setEffect(boolean effect) {
-        isEffect = effect;
     }
 }

@@ -1,4 +1,4 @@
-package sajor.com.game;
+package sajor.com.util;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
