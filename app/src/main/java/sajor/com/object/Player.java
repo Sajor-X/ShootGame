@@ -2,9 +2,12 @@ package sajor.com.object;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.drawable.AnimationDrawable;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
 
 import sajor.com.util.Constant;
 import sajor.com.view.ViewManager;
@@ -18,7 +21,10 @@ public class Player {
     // 定义玩家图片大小
     private int heroHeight = 0;
     private int heroWidth = 0;
-
+    // 是否死亡
+    private boolean isDie = false;
+    // 定义玩家成绩
+    private int score = 0;
     // 子弹集合
     private final List<Bullet> bulletList = new ArrayList<>();
 
@@ -39,9 +45,11 @@ public class Player {
         action+=2;
         if (action >= 8){
             addBullet();
+            ViewManager.soundPool.play(ViewManager.soundMap.get(Constant.BULLET_SOUND), 1, 1, 0, 0, 1);
             action = action % 2 + 1;
         }
     }
+
     public void drawAni(Canvas canvas, Bitmap hero){
         if (canvas == null){
             return ;
@@ -80,10 +88,12 @@ public class Player {
             if (bitmap == null) {
                 continue;
             }
-            // 子弹移动
-            bullet.bulletMove();
-            // 画子弹
-            Graphics.drawImage(canvas, bitmap, bullet.getBulletX(), bullet.getBulletY(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
+            if(bullet.isEffect()){
+                // 子弹移动
+                bullet.bulletMove();
+                // 画子弹
+                Graphics.drawImage(canvas, bitmap, bullet.getBulletX(), bullet.getBulletY(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
+            }
         }
     }
 
@@ -125,4 +135,21 @@ public class Player {
     public List<Bullet> getBulletList() {
         return bulletList;
     }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public boolean isDie() {
+        return isDie;
+    }
+
+    public void setDie(boolean die) {
+        isDie = die;
+    }
+
 }

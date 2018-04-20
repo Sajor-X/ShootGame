@@ -14,5 +14,4 @@
    
 ## 游戏预览
 
-![](https://i.imgur.com/0es1TWm.jpg)
-![](https://i.imgur.com/wz9ubDF.jpg)
+![](https://i.imgur.com/0ndnPMN.gif)

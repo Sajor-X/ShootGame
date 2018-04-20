@@ -26,7 +26,7 @@ public class Constant {
     public static final int PAINT = 4;
 
     // 两次调度之间默认的暂停时间
-    public static final int SLEEP_TIME = 40;
+    public static final int SLEEP_TIME = 50;
     // 最小的暂停时间
     public static final int MIN_SLEEP = 5;
 
@@ -37,17 +37,26 @@ public class Constant {
     public static final int BULLET_TYPE_1 = 1;
     public static final int BULLET_TYPE_2 = 2;
     // 子弹速度
-    public static final int BULLET_SPEED = 100;
+    public static final int BULLET_SPEED = 50;
 
-    // 定义代表怪物类型的常量（如果程序还需要增加更多怪物，只需在此处添加常量即可）
-    public static final int ENEMY_TYPE_1 = 1;
-    public static final int ENEMY_TYPE_2 = 2;
-    public static final int ENEMY_TYPE_3 = 3;
+    // 定义代表敌人类型的常量（如果程序还需要增加更多怪物，只需在此处添加常量即可）
+    public static final int ENEMY_TYPE_1 = 100;
+    public static final int ENEMY_TYPE_2 = 500;
+    public static final int ENEMY_TYPE_3 = 1000;
+    // 定义代表敌人生命值的常量
+    public static final int ENEMY_HP_1 = 1;
+    public static final int ENEMY_HP_2 = 8;
+    public static final int ENEMY_HP_3 = 15;
     // 敌人速度
-    public static final int ENEMY1_SPEED = 10;
-    public static final int ENEMY2_SPEED = 10;
-    public static final int ENEMY3_SPEED = 10;
+    public static final int ENEMY1_SPEED = 15;
+    public static final int ENEMY2_SPEED = 5;
+    public static final int ENEMY3_SPEED = 2;
 
-    // 玩家速度
-    public static final int PLAYER_SPEED = 100;
+    // 音乐
+    public static final int GAME_MUSIC_SOUND = 11;
+    public static final int GAME_OVER_SOUND = 21;
+    public static final int BULLET_SOUND = 31;
+    public static final int FLYING_SOUND = 41;
+    public static final int BUTTON_SOUND = 51;
+
 }

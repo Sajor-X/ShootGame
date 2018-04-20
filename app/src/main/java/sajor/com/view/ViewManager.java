@@ -6,20 +6,31 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.BitmapDrawable;
+import android.media.AudioManager;
+import android.media.SoundPool;
 
 import java.io.InputStream;
+import java.util.HashMap;
 
 import sajor.com.shootgame.EnemyManager;
+import sajor.com.sounds.GameSoundPool;
 import sajor.com.util.Graphics;
 import sajor.com.shootgame.MainActivity;
 import sajor.com.shootgame.R;
 import sajor.com.util.Constant;
 
 public class ViewManager {
+    // 定义一个SoundPool
+    public static SoundPool soundPool;
+    public static HashMap<Integer, Integer> soundMap = new HashMap<>();
+
     // 所有图片资源
     public static Bitmap imageRes = null;
     // 地图图片
     public static Bitmap map = null;
+
     // 保存玩家飞机的图片组
     public static Bitmap[] playerImage = null;
     // 保存一级敌人的图片组
@@ -30,6 +41,7 @@ public class ViewManager {
     public static Bitmap[] enemy3_Image = null;
     // 保存子弹的图片组
     public static Bitmap[] bulletImage = null;
+
     // 定义游戏对图片的缩放比例
     public static float scale = 1f;
     public static Matrix matrix = new Matrix();
@@ -53,6 +65,16 @@ public class ViewManager {
 
     // 加载游戏图片的方法
     public static void loadResource() {
+        soundPool = new SoundPool(3, AudioManager.STREAM_SYSTEM , 5);
+        soundMap.put(Constant.BULLET_SOUND, soundPool.load(MainActivity.mainActivity, R.raw.bullet, 1));
+        soundMap.put(Constant.ENEMY_TYPE_1, soundPool.load(MainActivity.mainActivity, R.raw.enemy1_down, 1));
+        soundMap.put(Constant.ENEMY_TYPE_2, soundPool.load(MainActivity.mainActivity, R.raw.enemy2_down, 1));
+        soundMap.put(Constant.ENEMY_TYPE_3, soundPool.load(MainActivity.mainActivity, R.raw.enemy3_down, 1));
+        soundMap.put(Constant.GAME_MUSIC_SOUND, soundPool.load(MainActivity.mainActivity, R.raw.game_music, 1));
+        soundMap.put(Constant.GAME_OVER_SOUND, soundPool.load(MainActivity.mainActivity, R.raw.game_over, 1));
+        soundMap.put(Constant.FLYING_SOUND, soundPool.load(MainActivity.mainActivity, R.raw.big_spaceship_flying, 1));
+        soundMap.put(Constant.BUTTON_SOUND, soundPool.load(MainActivity.mainActivity, R.raw.button, 1));
+
         imageRes = createBitmapByID(MainActivity.res, R.mipmap.shoot);
         // 加载地图
         Bitmap temp = createBitmapByID(MainActivity.res, R.mipmap.shoot_background);
@@ -87,11 +109,31 @@ public class ViewManager {
         enemy1_Image[2] = Bitmap.createBitmap(imageRes, 873, 697, 57, 51, matrix, false);
         enemy1_Image[3] = Bitmap.createBitmap(imageRes, 267, 296, 57, 51, matrix, false);
         enemy1_Image[4] = Bitmap.createBitmap(imageRes, 930, 697, 57, 51, matrix, false);
+        // 二级敌人
+        enemy2_Image = new Bitmap[6];
+        enemy2_Image[0] = Bitmap.createBitmap(imageRes, 0, 0, 69, 99, matrix, false);
+        enemy2_Image[1] = Bitmap.createBitmap(imageRes, 432, 525, 69, 99, matrix, false);
+        enemy2_Image[2] = Bitmap.createBitmap(imageRes, 534, 655, 69, 95, matrix, false);
+        enemy2_Image[3] = Bitmap.createBitmap(imageRes, 603, 655, 69, 95, matrix, false);
+        enemy2_Image[4] = Bitmap.createBitmap(imageRes, 672, 653, 69, 95, matrix, false);
+        enemy2_Image[5] = Bitmap.createBitmap(imageRes, 741, 653, 69, 95, matrix, false);
+        // 三级敌人
+        enemy3_Image = new Bitmap[9];
+        enemy3_Image[0] = Bitmap.createBitmap(imageRes, 335, 750, 169, 258, matrix, false);
+        enemy3_Image[1] = Bitmap.createBitmap(imageRes, 504, 750, 169, 258, matrix, false);
+        enemy3_Image[2] = Bitmap.createBitmap(imageRes, 166, 750, 169, 258, matrix, false);
+        enemy3_Image[3] = Bitmap.createBitmap(imageRes, 0, 486, 165, 261, matrix, false);
+        enemy3_Image[4] = Bitmap.createBitmap(imageRes, 0, 255, 165, 261, matrix, false);
+        enemy3_Image[5] = Bitmap.createBitmap(imageRes, 839, 748, 165, 260, matrix, false);
+        enemy3_Image[6] = Bitmap.createBitmap(imageRes, 165, 486, 165, 261, matrix, false);
+        enemy3_Image[7] = Bitmap.createBitmap(imageRes, 673, 748, 165, 260, matrix, false);
+        enemy3_Image[8] = Bitmap.createBitmap(imageRes, 0, 747, 166, 261, matrix, false);
 
         // 子弹
         bulletImage = new Bitmap[2];
         bulletImage[0] = Bitmap.createBitmap(imageRes, 1004, 987, 9, 21, matrix, false);
         bulletImage[1] = Bitmap.createBitmap(imageRes, 69, 78, 9, 21, matrix, false);
+
     }
 
     // 绘制游戏界面的方法，该方法先绘制游戏背景地图，再绘制游戏角色，最后绘制所有怪物

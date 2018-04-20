@@ -1,6 +1,11 @@
 package sajor.com.util;
 
+import android.graphics.Bitmap;
+
 import java.util.Random;
+
+import sajor.com.object.Enemy;
+import sajor.com.object.Player;
 
 public class Util {
     public static Random random = new Random();
