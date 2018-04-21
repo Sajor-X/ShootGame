@@ -14,4 +14,17 @@
    
 ## 游戏预览
 
-![](https://i.imgur.com/0ndnPMN.gif)
+![](https://i.imgur.com/w358w6C.png)
+
+![](https://i.imgur.com/EW4gT6s.png)
+
+![加载动画中](https://i.imgur.com/0ndnPMN.gif)
+
+
+## 资源
+
+图片和声音来自微信飞机大战
+
+游戏已经打包apk 位置：/apk/ShootGame.apk
+
+安装需要安卓系统版本7.0以上
